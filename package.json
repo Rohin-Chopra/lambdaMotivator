@@ -1,1 +1,22 @@
-{}
+{
+  "name": "lambdamotivator",
+  "description": "A lambda function that sends you inspring quotes every day",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "sam local invoke DailyMotivationFunction",
+    "build": "sam build",
+    "deploy": "sam deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rohin1212/lambdaMotivator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rohin1212/lambdaMotivator/issues"
+  },
+  "homepage": "https://github.com/Rohin1212/lambdaMotivator#readme"
+}
