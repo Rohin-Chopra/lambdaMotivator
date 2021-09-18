@@ -14,7 +14,7 @@ exports.lambdaHandler = async (event, context) => {
     },
     Message: {
       Body: {
-        Text: { Data: `${quote.text}\n${quote.author}` }
+        Text: { Data: `${quote.text}\n\t-${quote.author}` }
       },
 
       Subject: { Data: 'Your daily inspiration' }
