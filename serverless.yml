@@ -1,0 +1,44 @@
+service: motivator-lambda-app
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-typescript
+
+provider:
+  name: aws
+  region: ap-southeast-2
+  runtime: nodejs16.x
+  lambdaHashingVersion: 20201221
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "ses:SendTemplatedEmail"
+          Resource: "*"
+
+functions:
+  motivatorLambda:
+    handler: src/functions/handler.handler
+    description: A lambda function that sends motivational emails to subscribed recipients
+    memorySize: 128
+    environment:
+      SES_TEMPLATE_NAME: ${ssm:/lambda-motivator-app/SES_TEMPLATE_NAME}
+      SES_EMAIL_SOURCE: ${ssm:/lambda-motivator-app/SES_EMAIL_SOURCE}
+      SES_TO_ADDRESSES: ${ssm:/lambda-motivator-app/SES_TO_ADDRESSES}
+    events:
+      - schedule: cron(0 18 * * ? *)
+
+resources:
+  Resources:
+    MotivationalQuoteEmailTemplate:
+      Type: "AWS::SES::Template"
+      Properties:
+        Template:
+          TemplateName: motivational-quote-email-template
+          SubjectPart: Your daily motivation
+          HtmlPart: >
+            <body>
+              <p>{{QUOTE}}</p>
+              <p>{{AUTHOR}}</p>
+            </body>
